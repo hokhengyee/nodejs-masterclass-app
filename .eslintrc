@@ -1,0 +1,33 @@
+{
+    "extends": "eslint:recommended",
+    "rules": {
+        "no-multi-spaces": [
+            2,
+            {
+                "exceptions": {
+                    "VariableDeclarator": true
+                }
+            }
+        ],
+        "comma-style": [
+            "error",
+            "first",
+            {
+                "exceptions": {
+                    "ArrayExpression": true,
+                    "ObjectExpression": true
+                }
+            }
+        ],
+        "no-console": "off"
+    },
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "sourceType": "module"
+    },
+    "env": {
+        "amd": true,
+        "es6": true,
+        "node": true
+    }
+}
