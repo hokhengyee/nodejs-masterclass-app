@@ -4,7 +4,9 @@
 const http = require('http');
 const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
-const config = require('./config');
+const config = require('./lib/config');
+const handlers = require('./lib/handlers');
+const helpers = require('./lib/helpers');
 
 // the server should respond to all requests with a string
 const server = http.createServer((req, res) => {
@@ -39,10 +41,10 @@ const server = http.createServer((req, res) => {
         // Construct the data object to send to the handler
         const data = {
             'trimmedPath': trimmedPath,
-            'queryStrObj': queryStrObj,
+            'queryStrObject': queryStrObj,
             'method': method,
             'headers': headers,
-            'payload': buffer
+            'payload': helpers.parseJsonToObject(buffer),
         };
 
         // Route the request to the handler specified in the router
@@ -62,7 +64,7 @@ const server = http.createServer((req, res) => {
             res.end(payloadStr);
 
             // Log the request
-            console.log('Returning this response: ', statusCode, payloadStr);
+            console.log('Response:', statusCode, payloadStr);
         });
     });
 });
@@ -72,28 +74,10 @@ server.listen(config.port, () => {
     console.log('The server is listening on port ' + config.port + ' in ' + config.envName);
 });
 
-// Define the handlers
-const handlers = {};
-
-// Sample handler
-handlers.hello = (data, callback) => {
-    // Callback a http status code, and a payload object
-    callback(200, { 'message': 'Hello Pirple!' });
-};
-
-// Ping handler
-handlers.ping = (data, callback) => {
-    // Callback a http status code, and a payload object
-    callback(200);
-};
-
-// Not found handler
-handlers.notFound = (data, callback) => {
-    callback(404);
-}
-
 // Define a request router
 const router = {
     'hello': handlers.hello,
-    'ping': handlers.ping
+    'ping': handlers.ping,
+    'users': handlers.users,
+    'tokens': handlers.tokens,
 };
