@@ -76,8 +76,9 @@ server.listen(config.port, () => {
 
 // Define a request router
 const router = {
-    'hello': handlers.hello,
+    // 'hello': handlers.hello,
     'ping': handlers.ping,
     'users': handlers.users,
     'tokens': handlers.tokens,
+    'checks': handlers.checks,
 };
